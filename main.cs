@@ -2,6 +2,8 @@ using System;
 
 class Program 
 {
+  private static int intUserGuess, userDigit1, userDigit2, userDigit3, userDigit4;
+  private static string userGuess;
   public static void Main (string[] args) 
   {
         // "Global" variables
@@ -57,7 +59,7 @@ class Program
     
     // Get 4 digit number from user
     Console.WriteLine ("Enter your first guess: ");
-    string userStrGuess = Console.ReadLine(); 
+    Program.userGuess = Console.ReadLine(); 
     while (!gameOver)
     {
       // Catch block for user input, verify digit count, numerical, range
@@ -68,24 +70,24 @@ class Program
         switch (catchRouter)
         {
           case 1:     // If same length as combination, pass to next case
-            if (userStrGuess.Length == comboLength)
+            if (Program.userGuess.Length == comboLength)
             {
               catchRouter = 2;
             }
             else
             {
               Console.WriteLine ("Guess must be {0} digits!", comboLength);
-              userStrGuess = Console.ReadLine();
+              Program.userGuess = Console.ReadLine();
             }
             break;
           case 2:    // If all integers, pass to next case, else punt to case 1
-            for (int i = 0; i < userStrGuess.Length; i++)
+            for (int i = 0; i < Program.userGuess.Length; i++)
             {
-              bool isDigit = Char.IsDigit(userStrGuess, i);
+              bool isDigit = Char.IsDigit(Program.userGuess, i);
               if (!isDigit)
               {
                 Console.WriteLine ("Guess must be all integers!");
-                userStrGuess = Console.ReadLine();
+                Program.userGuess = Console.ReadLine();
                 catchRouter = 1;
                 break;
               }
@@ -99,20 +101,20 @@ class Program
             // TODO ??? Create an array and loop through??? (Learn arrays)
             
             // Safe to convert guess to int
-            int userGuessCheck = Convert.ToInt32(userStrGuess);
-            int userDigit1 = userGuessCheck / 1000;
-            int userDigit2 = userGuessCheck / 100 % 10;
-            int userDigit3 = userGuessCheck / 10 % 10;
-            int userDigit4 = userGuessCheck % 10;
+            Program.intUserGuess = Convert.ToInt32(Program.userGuess);
+            Program.userDigit1 = Program.intUserGuess / 1000;
+            Program.userDigit2 = Program.intUserGuess / 100 % 10;
+            Program.userDigit3 = Program.intUserGuess / 10 % 10;
+            Program.userDigit4 = Program.intUserGuess % 10;
 
-            if (userDigit1 < comboRangeLow || userDigit1 > comboRangeHigh ||
-               userDigit2 < comboRangeLow || userDigit2 > comboRangeHigh ||
-               userDigit3 < comboRangeLow || userDigit3 > comboRangeHigh ||
-               userDigit4 < comboRangeLow || userDigit4 > comboRangeHigh)
+            if (Program.userDigit1 < comboRangeLow || Program.userDigit1 > comboRangeHigh ||
+               Program.userDigit2 < comboRangeLow || Program.userDigit2 > comboRangeHigh ||
+               Program.userDigit3 < comboRangeLow || Program.userDigit3 > comboRangeHigh ||
+               Program.userDigit4 < comboRangeLow || Program.userDigit4 > comboRangeHigh)
             {
               Console.WriteLine ("Numbers must be in range {0} to {1}!",
                                  comboRangeLow, comboRangeHigh);
-              userStrGuess = Console.ReadLine();
+              Program.userGuess = Console.ReadLine();
               catchRouter = 1;
             }
             else
@@ -122,13 +124,9 @@ class Program
             break;
         }
       }
-
-      // Convert guess to int
-      // Tried to 'globalize' userGuess but cleaner to just re-convert here, post check-pass
-      int userGuess = Convert.ToInt32(userStrGuess);
       
       // Check the game state
-      if (userGuess == combination)
+      if (Program.intUserGuess == combination)
       {
         gameOver = true;
         Console.WriteLine ("!!!CONGRATS!!! You figured it out in {0} guesses.", (turnCount + 1));
@@ -140,62 +138,56 @@ class Program
         gameOver = true;
       }
       else
-      {
-        // Parse userGuess into 4 numbers
-        int userFirst = userGuess / 1000;
-        int userSecond = userGuess / 100 % 10;
-        int userThird = userGuess / 10 % 10;
-        int userFourth = userGuess % 10;
-      
+      {      
         // Compare the guess with the combination and tick indicators, tick 1 turn
         int guessCorrect = 0;
         int guessWrongSpot = 0;
         turnCount ++;
 
         // Evaluate first digit
-        if (userFirst == digitFirst)
+        if (Program.userDigit1 == digitFirst)
         {
           guessCorrect ++;
         }
-        else if (userFirst == digitSecond ||
-               userFirst == digitThird ||
-               userFirst == digitFourth)
+        else if (Program.userDigit1 == digitSecond ||
+               Program.userDigit1 == digitThird ||
+               Program.userDigit1 == digitFourth)
         {
             guessWrongSpot ++;
         }
 
         // Evaluate second digit
-        if (userSecond == digitSecond) 
+        if (Program.userDigit2 == digitSecond) 
         {
           guessCorrect ++;
         }
-        else if (userSecond == digitFirst ||
-               userSecond == digitThird ||
-               userSecond == digitFourth)
+        else if (Program.userDigit2 == digitFirst ||
+               Program.userDigit2 == digitThird ||
+               Program.userDigit2 == digitFourth)
         {
           guessWrongSpot ++;
         }
 
         // Evaluate third digit
-        if (userThird == digitThird)
+        if (Program.userDigit3 == digitThird)
         {
           guessCorrect ++;
         }
-        else if (userThird == digitFirst ||
-               userThird == digitSecond ||
-               userThird == digitFourth)
+        else if (Program.userDigit3 == digitFirst ||
+               Program.userDigit3 == digitSecond ||
+               Program.userDigit3 == digitFourth)
         {
           guessWrongSpot ++;
         }
 
         // Evaluate fourth digit
-        if (userFourth == digitFourth)
+        if (Program.userDigit4 == digitFourth)
         {
           guessCorrect ++;
         }
-        else if (userFourth == digitFirst ||
-               userFourth == digitSecond ||
-               userFourth == digitThird)
+        else if (Program.userDigit4 == digitFirst ||
+               Program.userDigit4 == digitSecond ||
+               Program.userDigit4 == digitThird)
         {
           guessWrongSpot ++;
         }
@@ -205,7 +197,7 @@ class Program
                         turnCount, guessCorrect, guessWrongSpot, (4 - guessCorrect - guessWrongSpot));
 
         // Get a new guess
-        userStrGuess = (Console.ReadLine());
+        Program.userGuess = (Console.ReadLine());
       }
     } 
   }
