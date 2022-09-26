@@ -4,6 +4,7 @@ class Program
 {
   private static int intUserGuess, userDigit1, userDigit2, userDigit3, userDigit4;
   private static string userGuess;
+  
   public static void Main (string[] args) 
   {
         // "Global" variables
@@ -130,12 +131,14 @@ class Program
       {
         gameOver = true;
         Console.WriteLine ("!!!CONGRATS!!! You figured it out in {0} guesses.", (turnCount + 1));
+        Console.ReadLine();
       }
       else if (turnCount == 9)
       {
         Console.WriteLine ("Better luck next time.");
         Console.WriteLine ("We were looking for " +combination);
         gameOver = true;
+        Console.ReadLine();
       }
       else
       {      
